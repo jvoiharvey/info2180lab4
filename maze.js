@@ -1,55 +1,64 @@
-var loser = false; 
+var youLost = false; 
+
  
 
 window.onload = function() {
     
-$("start").onclick = startClick;
+$("start").onclick = gameBegin;
+
+$("end").onmouseover = gameOver;
+    
+ var outOfBounds = $$("div#maze div.boundary");
    
- $("end").onmouseover = overEnd;
-   
- var boundaries = $$("div#maze div.boundary");
-   
- for (var i = 0; i < boundaries.length; i++) {
+ for (var i = 0; i < outOfBounds.length; i++) {
      
-   boundaries[i].onmouseover = overBoundary;
+   outOfBounds[i].onmouseover = linesCrossed;
     }
 };
 
 
-function overBoundary() {
-   
- loser = true;
-    
-var boundaries = $$("div#maze div.boundary");
 
-for (var i = 0; i < boundaries.length; i++) {
+
+
+function linesCrossed() {
    
-     boundaries[i].addClassName("youlose");
+ youLost = true;
+document.getElementById("status").innerHTML = "Sorry you lost."
+    
+var outOfBounds= $$("div#maze div.boundary");
+
+for (var i = 0; i < outOfBounds.length; i++) {
+
+	var limit = outOfBounds[i]
+	limit.style.backgroundColor = "red";
+   
+}
+}
+
+
+
+function gameBegin() {
+
+    youLost = false;
+
+    document.getElementById("status").innerHTML = "Let's Do this!"
+var outOfBounds = $$("div#maze div.boundary");
+    
+for (var i = 0; i < outOfBounds.length; i++) {
+
+	var limit = outOfBounds[i]
+	limit.style.backgroundColor = "gray";
     }
 }
 
 
-function startClick() {
 
-    loser = false;
-    
-var boundaries = $$("div#maze div.boundary");
-    
-for (var i = 0; i < boundaries.length; i++) {
-
-boundaries[i].removeClassName("youlose");
-    }
+function gameOver() {
+   
+if (!youLost) {
+   document.getElementById("status").innerHTML = "Yay you won!";
+ 
+	   
 }
 
-
-function overEnd() {
-    
-if(loser) {
-       
- alert("Sorry, you lost. :[");
-    }
- else {
-        
-	alert("You win! :]");
-    }
 }
